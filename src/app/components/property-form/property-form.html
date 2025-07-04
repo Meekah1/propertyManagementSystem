@@ -1,1 +1,122 @@
-<p>property-form works!</p>
+<form
+  #propertyForm="ngForm"
+  (ngSubmit)="onSubmit(propertyForm)"
+  class="needs-validation"
+  novalidate
+>
+  <div class="mb-3">
+    <label for="name" class="form-label">Property Name</label>
+    <input
+      type="text"
+      class="form-control"
+      id="name"
+      name="name"
+      [(ngModel)]="property.name"
+      required
+    />
+    <div class="invalid-feedback">Please provide a property name.</div>
+  </div>
+
+  <div class="mb-3">
+    <label for="location" class="form-label">Location</label>
+    <input
+      type="text"
+      class="form-control"
+      id="location"
+      name="location"
+      [(ngModel)]="property.location"
+      required
+    />
+    <div class="invalid-feedback">Please provide a location.</div>
+  </div>
+
+  <div class="mb-3">
+    <label for="type" class="form-label">Property Type</label>
+    <select
+      class="form-select"
+      id="type"
+      name="type"
+      [(ngModel)]="property.type"
+      required
+    >
+      <option *ngFor="let type of propertyTypes" [value]="type">
+        {{type}}
+      </option>
+    </select>
+    <div class="invalid-feedback">Please select a property type.</div>
+  </div>
+
+  <div class="mb-3">
+    <label for="price" class="form-label">Price ($)</label>
+    <input
+      type="number"
+      class="form-control"
+      id="price"
+      name="price"
+      [(ngModel)]="property.price"
+      min="0"
+      required
+    />
+    <div class="invalid-feedback">Please provide a valid price.</div>
+  </div>
+
+  <div class="mb-3">
+    <label for="bedrooms" class="form-label">Bedrooms</label>
+    <input
+      type="number"
+      class="form-control"
+      id="bedrooms"
+      name="bedrooms"
+      [(ngModel)]="property.bedrooms"
+      min="0"
+    />
+  </div>
+
+  <div class="mb-3">
+    <label for="bathrooms" class="form-label">Bathrooms</label>
+    <input
+      type="number"
+      class="form-control"
+      id="bathrooms"
+      name="bathrooms"
+      [(ngModel)]="property.bathrooms"
+      min="0"
+    />
+  </div>
+
+  <div class="mb-3">
+    <label for="area" class="form-label">Area (sq ft)</label>
+    <input
+      type="number"
+      class="form-control"
+      id="area"
+      name="area"
+      [(ngModel)]="property.area"
+      min="0"
+    />
+  </div>
+
+  <div class="mb-3">
+    <label for="description" class="form-label">Description</label>
+    <textarea
+      class="form-control"
+      id="description"
+      name="description"
+      [(ngModel)]="property.description"
+      rows="3"
+    ></textarea>
+  </div>
+
+  <div class="mb-3">
+    <label for="imageUrl" class="form-label">Image URL</label>
+    <input
+      type="url"
+      class="form-control"
+      id="imageUrl"
+      name="imageUrl"
+      [(ngModel)]="property.imageUrl"
+    />
+  </div>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>

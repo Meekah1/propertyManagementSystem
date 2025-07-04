@@ -1,0 +1,199 @@
+<!-- src/app/property-list/property-list.component.html -->
+<div class="container mt-4">
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <div class="input-group">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search by name or location"
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="applyFilters()"
+        />
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          (click)="applyFilters()"
+        >
+          <i class="bi bi-search"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <select
+        class="form-select"
+        [(ngModel)]="selectedType"
+        (ngModelChange)="applyFilters()"
+      >
+        <option value="all">All Types</option>
+        <option *ngFor="let type of propertyTypes" [value]="type">
+          {{type}}
+        </option>
+      </select>
+    </div>
+
+    <div class="col-md-3 text-end">
+      <button class="btn btn-success me-2" (click)="exportToCsv()">
+        <i class="bi bi-download"></i> Export CSV
+      </button>
+
+      <button
+        *ngIf="isAdmin"
+        class="btn btn-primary"
+        routerLink="/properties/add"
+      >
+        <i class="bi bi-plus"></i> Add Property
+      </button>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <span class="badge bg-info">{{totalItems}} properties found</span>
+        </div>
+        <div>
+          <span class="me-2">Sort by:</span>
+          <div class="btn-group" role="group">
+            <button
+              type="button"
+              class="btn btn-outline-secondary"
+              (click)="onSort('price')"
+              [class.active]="sortField === 'price'"
+            >
+              Price
+              <i
+                class="bi"
+                [class.bi-sort-up]="sortField === 'price' && sortDirection === 'asc'"
+                [class.bi-sort-down]="sortField === 'price' && sortDirection === 'desc'"
+              ></i>
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary"
+              (click)="onSort('location')"
+              [class.active]="sortField === 'location'"
+            >
+              Location
+              <i
+                class="bi"
+                [class.bi-sort-up]="sortField === 'location' && sortDirection === 'asc'"
+                [class.bi-sort-down]="sortField === 'location' && sortDirection === 'desc'"
+              ></i>
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary"
+              (click)="onSort('name')"
+              [class.active]="sortField === 'name'"
+            >
+              Name
+              <i
+                class="bi"
+                [class.bi-sort-up]="sortField === 'name' && sortDirection === 'asc'"
+                [class.bi-sort-down]="sortField === 'name' && sortDirection === 'desc'"
+              ></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <div class="col" *ngFor="let property of paginatedProperties">
+      <div class="card h-100">
+        <img
+          [src]="property.imageUrl || 'assets/default-property.jpg'"
+          class="card-img-top"
+          alt="{{property.name}}"
+        />
+        <div class="card-body">
+          <h5 class="card-title">{{property.name}}</h5>
+          <p class="card-text text-muted">{{property.location}}</p>
+          <p class="card-text">
+            {{property.description || 'No description available'}}
+          </p>
+          <ul class="list-group list-group-flush mb-3">
+            <li class="list-group-item">
+              <strong>Type:</strong> {{property.type}}
+            </li>
+            <li class="list-group-item">
+              <strong>Price:</strong> ${{property.price | number}}
+            </li>
+            <li *ngIf="property.bedrooms" class="list-group-item">
+              <strong>Bedrooms:</strong> {{property.bedrooms}}
+            </li>
+            <li *ngIf="property.bathrooms" class="list-group-item">
+              <strong>Bathrooms:</strong> {{property.bathrooms}}
+            </li>
+            <li *ngIf="property.area" class="list-group-item">
+              <strong>Area:</strong> {{property.area}} sq ft
+            </li>
+          </ul>
+        </div>
+        <div class="card-footer bg-transparent">
+          <a
+            [routerLink]="['/properties', property.id]"
+            class="btn btn-outline-primary me-2"
+          >
+            <i class="bi bi-eye"></i> View
+          </a>
+          <a
+            *ngIf="isAdmin"
+            [routerLink]="['/properties/edit', property.id]"
+            class="btn btn-outline-secondary me-2"
+          >
+            <i class="bi bi-pencil"></i> Edit
+          </a>
+          <button
+            *ngIf="isAdmin"
+            (click)="deleteProperty(property.id)"
+            class="btn btn-outline-danger"
+          >
+            <i class="bi bi-trash"></i> Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-4" *ngIf="totalItems > itemsPerPage">
+    <div class="col">
+      <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+          <li class="page-item" [class.disabled]="currentPage === 1">
+            <a
+              class="page-link"
+              (click)="currentPage = currentPage - 1"
+              aria-label="Previous"
+            >
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li
+            *ngFor="let page of getPages()"
+            class="page-item"
+            [class.active]="page === currentPage"
+          >
+            <a class="page-link" (click)="currentPage = page">{{page}}</a>
+          </li>
+          <li
+            class="page-item"
+            [class.disabled]="currentPage * itemsPerPage >= totalItems"
+          >
+            <a
+              class="page-link"
+              (click)="currentPage = currentPage + 1"
+              aria-label="Next"
+            >
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>

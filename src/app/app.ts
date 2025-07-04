@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
-// import { RouterOutlet } from '@angular/router';
-// import { PropertyForm } from './components/property-form/property-form';
+import { CommonModule } from '@angular/common';
+import { RouterModule, RouterOutlet } from '@angular/router';
+import { NavbarComponent } from '../app/components/navbar/navbar';
 
 @Component({
   selector: 'app-root',
-  // imports: [RouterOutlet],
+  standalone: true,
+  imports: [CommonModule, RouterOutlet, RouterModule, NavbarComponent],
   templateUrl: './app.html',
-  styleUrl: './app.scss',
+  styleUrls: ['./app.scss'],
 })
-export class App {
-  protected title = 'propertyManagementSystem';
+export class AppComponent {
+  title = 'property-management';
 }
