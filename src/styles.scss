@@ -4,3 +4,98 @@
 // @import 'bootstrap/scss/bootstrap';
 // Remove any existing imports and use:
 // @import "../node_modules/bootstrap/scss/bootstrap";
+/* Animation imports */
+@import "animate.css/animate.min.css" external;
+
+//* Header Styles */
+.bg-gradient-primary {
+  background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.brand-text {
+  font-family: "lato";
+  font-weight: 700;
+  font-size: 1.5rem;
+  // letter-spacing: 1px;
+}
+
+.nav-link {
+  position: relative;
+  padding: 0.5rem 1rem;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 1rem;
+    width: 0;
+    height: 2px;
+    background: #f59e0b;
+    transition: width 0.3s ease;
+  }
+
+  &:hover::after {
+    width: calc(100% - 2rem);
+  }
+}
+
+/* Footer Styles */
+footer {
+  background: linear-gradient(to right, #111827, #1f2937);
+
+  .social-icons a {
+    transition: all 0.3s ease;
+
+    &:hover {
+      color: #f59e0b !important;
+      transform: translateY(-3px);
+    }
+  }
+
+  textarea {
+    resize: none;
+    border: 1px solid #4b5563;
+    transition: all 0.3s ease;
+
+    &:focus {
+      border-color: #f59e0b;
+      box-shadow: 0 0 0 0.25rem rgba(245, 158, 11, 0.25);
+      background: rgba(255, 255, 255, 0.05);
+    }
+  }
+
+  .form-control {
+    border: 1px solid #4b5563;
+    color: white !important;
+
+    &::placeholder {
+      color: #9ca3af;
+    }
+
+    &:focus {
+      border-color: #f59e0b;
+      background: rgba(255, 255, 255, 0.05);
+    }
+  }
+}
+
+/* Animation */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.logo-float {
+  animation: float 3s ease-in-out infinite;
+}
