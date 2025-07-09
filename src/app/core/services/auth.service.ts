@@ -24,11 +24,6 @@ export class AuthService {
     return false;
   }
 
-  logout(): void {
-    this.currentUser = null;
-    localStorage.removeItem('currentUser');
-  }
-
   getCurrentUser(): User | null {
     if (!this.currentUser) {
       const user = localStorage.getItem('currentUser');
@@ -45,6 +40,11 @@ export class AuthService {
 
   isAuthenticated(): boolean {
     return this.getCurrentUser() !== null;
+  }
+
+  logout(): void {
+    this.currentUser = null;
+    localStorage.removeItem('currentUser');
   }
   // Start with just login() first, then add other methods
 }

@@ -3,10 +3,12 @@
     <div class="container">
       <a class="navbar-brand d-flex align-items-center" routerLink="/">
         <img
-          src="../../../../src/assets/MeekahHub1.jpg"
+          src="../../../assets/MeekahHub.png"
           alt="Logo"
+          class="logo-img"
+          loading="lazy"
+          width="auto"
           height="40"
-          class="me-2"
         />
         <span class="brand-text"
           >Meekah<span class="text-warning">Hub</span></span
@@ -22,31 +24,30 @@
       </button>
 
       <div [ngbCollapse]="isCollapsed" class="navbar-collapse">
-        <ul class="navbar-nav ms-auto">
+        <ul class="navbar-nav me-auto">
           <li class="nav-item" routerLinkActive="active">
             <a class="nav-link" routerLink="/properties">Properties</a>
           </li>
           <li class="nav-item" routerLinkActive="active">
             <a class="nav-link" routerLink="/about">About</a>
           </li>
-          <li class="nav-item dropdown" ngbDropdown>
-            <a class="nav-link dropdown-toggle" ngbDropdownToggle> Account </a>
-            <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
-              <a
-                class="dropdown-item"
-                *ngIf="!authService.isAuthenticated()"
-                routerLink="/login"
-                >Login</a
-              >
-              <a
-                class="dropdown-item"
-                *ngIf="authService.isAuthenticated()"
-                (click)="logout()"
-                >Logout</a
-              >
-            </div>
-          </li>
         </ul>
+
+        <!-- Moved Auth Section Outside of Dropdown -->
+        <div class="d-flex align-items-center">
+          <div *ngIf="authService.isAuthenticated()">
+            <span class="text-light me-3">
+              Welcome, {{ authService.getCurrentUser()?.username }}
+            </span>
+            <button class="btn btn-outline-light" (click)="logout()">
+              <i class="bi bi-box-arrow-right"></i> Logout
+            </button>
+          </div>
+
+          <div *ngIf="!authService.isAuthenticated()" class="nav-item">
+            <a class="nav-link" routerLink="/login">Login</a>
+          </div>
+        </div>
       </div>
     </div>
   </nav>
