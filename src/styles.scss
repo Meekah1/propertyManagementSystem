@@ -18,6 +18,49 @@
   }
 }
 
+/* Logo Container */
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+/* Logo Image */
+.navbar-brand img {
+  height: 40px; // Fixed height
+  width: auto; // Maintain aspect ratio
+  margin-right: 0.5rem; // Same as me-2 but more reliable
+  transition: all 0.3s ease;
+  border-radius: 4px; // Slightly rounded corners
+  object-fit: contain; // Ensures full image visibility
+
+  &:hover {
+    transform: scale(1.05); // Subtle zoom effect
+    filter: brightness(1.1); // Slight glow
+  }
+}
+
+/* Brand Text */
+.brand-text {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: 1.4rem;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+
+  .text-warning {
+    color: #ffc107 !important; // Bootstrap warning color
+  }
+
+  &:hover {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+
 .brand-text {
   font-family: "lato";
   font-weight: 700;
@@ -98,4 +141,12 @@ footer {
 
 .logo-float {
   animation: float 3s ease-in-out infinite;
+}
+
+.logout-btn {
+  transition: all 0.3s ease;
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
 }
