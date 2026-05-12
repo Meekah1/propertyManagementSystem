@@ -12,5 +12,5 @@ import { Footer } from './components/footer/footer';
   styleUrls: ['./app.scss'],
 })
 export class AppComponent {
-  title = 'property-management';
+  title = 'MeekahHub';
 }
